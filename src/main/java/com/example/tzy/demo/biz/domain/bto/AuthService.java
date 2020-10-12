@@ -1,24 +1,21 @@
 package com.example.tzy.demo.biz.domain.bto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.example.tzy.demo.biz.redis.UserAuthRedisClient;
+import com.example.tzy.demo.database.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 /**
- * @program: exam
- * @description: auth
  * @author: Tianzy
  * @create: 2020-09-28 20:03
  **/
-@Data
-@Builder
 @Service
-@NoArgsConstructor
-@AllArgsConstructor
 public class AuthService {
-    long id;
-    String name;
-    String age;
+    private final UserRepository userRepository;
+
+    private final UserAuthRedisClient authRedisClient;
+
+    public AuthService(UserRepository userRepository, UserAuthRedisClient authRedisClient) {
+        this.userRepository = userRepository;
+        this.authRedisClient = authRedisClient;
+    }
 }

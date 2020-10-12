@@ -1,7 +1,6 @@
-package com.example.tzy.demo.controller;
+package com.example.tzy.demo.http.controller;
 
 import com.example.tzy.demo.biz.domain.bto.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
