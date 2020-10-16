@@ -3,7 +3,6 @@ package com.example.tzy.demo.biz.redis;
 import com.example.tzy.demo.biz.domain.bto.response.CoreUserInfo;
 import org.apache.catalina.SessionIdGenerator;
 import org.apache.catalina.util.StandardSessionIdGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -39,5 +38,22 @@ public class UserAuthRedisClient {
         redisTemplate.opsForValue()
                 .set(sessionKey(sessionId),userInfo,expiredTime);
         return sessionId;
+    }
+    public CoreUserInfo getAuth(String sessionId){
+        if(sessionId==null){
+            return null;
+        }
+        String key = sessionKey(sessionId);
+        CoreUserInfo userInfo = (CoreUserInfo) redisTemplate.opsForValue().get(key);
+        if(Objects.isNull(userInfo)){
+            redisTemplate.expire(key,Duration.ofDays(3));
+        }
+        return userInfo;
+    }
+    public boolean expireAuth(String sessionId){
+        if(sessionId==null){
+            return false;
+        }
+        return redisTemplate.delete(sessionId);
     }
 }

@@ -1,1 +1,4 @@
-
+application:
+  auth:
+    password:
+      salt:ihatejava
