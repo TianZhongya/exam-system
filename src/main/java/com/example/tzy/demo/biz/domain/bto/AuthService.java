@@ -1,10 +1,10 @@
 package com.example.tzy.demo.biz.domain.bto;
 
 import com.example.tzy.demo.biz.bean.PasswordEncoder;
-import com.example.tzy.demo.biz.domain.annotation.TargetDataSource;
 import com.example.tzy.demo.biz.domain.bto.response.CoreUserInfo;
 import com.example.tzy.demo.biz.exception.BaseException;
 import com.example.tzy.demo.biz.redis.UserAuthRedisClient;
+import com.example.tzy.demo.database.annotation.TargetDataSource;
 import com.example.tzy.demo.database.entity.CoreUserEntity;
 import com.example.tzy.demo.database.repository.UserRepository;
 import org.apache.commons.lang3.StringUtils;
