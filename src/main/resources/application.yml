@@ -12,15 +12,35 @@ server:
       force: true
 application:
   auth:
+    non-login-prefixes:
+      - /api/v1/demo
+      - /api/v1/auth
+      - /api/v1/users
+    roleToPrefixes:
+      ADMIN:
+        - /api/v1
+      STUDENT:
+        - /api/v1/student
+        - /api/v1/papers
+        - /api/v1/course
+      TEACHER:
+        - /api/v1/users
+        - /api/v1/teacher
+        - /api/v1/subjects
+        - /api/v1/questions
+        - /api/v1/papers
+        - /api/v1/course
     password:
       salt: ihatejava
+
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
 
+
 ---
 server:
-  port: 8080
+  port: 8888
 
 application:
   auth:
@@ -32,9 +52,8 @@ application:
 spring:
   profiles: dev
   redis:
-    host: localhost
-    port: 6378
-    password: ohmygod
+    host: dev-cloud
+    port: 6379
   jpa:
     show-sql: true
 
@@ -42,13 +61,13 @@ mysql:
   datasource:
     - name: exam_read
       defaultDataSource: true
-      jdbc-url: jdbc:mysql://localhost:3306/examination_system_test?characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowMultiQueries=true
-      username: root
-      password: 000000
+      jdbc-url: jdbc:mysql://dev-cloud:3306/examination_system_test?characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+      username: exam_read
+      password: youknowthat
     - name: exam_write
-      jdbc-url: jdbc:mysql://localhost:3306/examination_system_test?characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowMultiQueries=true
-      username: root
-      password: 000000
+      jdbc-url: jdbc:mysql://dev-cloud:3306/examination_system_test?characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+      username: exam_write
+      password: youknowthat
 
 logging:
   level:
@@ -68,18 +87,18 @@ application:
 spring:
   profiles: prod
   redis:
-    host: localhost
-    port: 6378
+    host: dev-cloud
+    port: 6379
 mysql:
   datasource:
     - name: exam_read
-      jdbc-url: jdbc:mysql://localhost:3306/examination_system?characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+      jdbc-url: jdbc:mysql://dev-cloud:3306/examination_system?characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowMultiQueries=true
       username: exam_read
-      password: ohmygod
+      password: youknowthat
     - name: exam_write
-      jdbc-url: jdbc:mysql://localhost:3306/examination_system?characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+      jdbc-url: jdbc:mysql://dev-cloud:3306/examination_system?characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowMultiQueries=true
       username: exam_write
-      password: ohmygod
+      password: youknowthat
 
 logging:
   file:

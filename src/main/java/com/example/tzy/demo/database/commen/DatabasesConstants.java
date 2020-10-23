@@ -6,5 +6,5 @@ package com.example.tzy.demo.database.commen;
  **/
 public class DatabasesConstants {
     public static final String EXAM_READ_ONLY = "exam_read";
-    public static final String EXAM_WRITE_ONLY = "exam_write";
+    public static final String EXAM_READ_WRITE = "exam_write";
 }

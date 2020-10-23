@@ -1,4 +1,4 @@
-package com.example.tzy.demo.biz.domain.bto;
+package com.example.tzy.demo.biz.domain.bto.request;
 
 import lombok.Data;
 

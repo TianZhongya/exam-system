@@ -1,6 +1,7 @@
-package com.example.tzy.demo.biz.domain.bto;
+package com.example.tzy.demo.biz.service;
 
 import com.example.tzy.demo.biz.bean.PasswordEncoder;
+import com.example.tzy.demo.biz.domain.bto.request.AuthRequest;
 import com.example.tzy.demo.biz.domain.bto.response.CoreUserInfo;
 import com.example.tzy.demo.biz.exception.BaseException;
 import com.example.tzy.demo.biz.redis.UserAuthRedisClient;
@@ -36,13 +37,13 @@ public class AuthService {
         CoreUserEntity userEntity = null;
         if(!StringUtils.isBlank(auth.getUsername())){
             userEntity
-                    =userRepository.findByUsernameAndPasswordAndIsDel(auth.getUsername(), passwordEncoder.encoder(auth.getPassword()),(short)0);
+                    =userRepository.findByUsernameAndPasswordAndIsDel(auth.getUsername(), passwordEncoder.encoding(auth.getPassword()),(short)0);
         }else if(!StringUtils.isBlank((auth.getEmail()))){
             userEntity
-                    =userRepository.findByEmailAndPasswordAndIsDel(auth.getEmail(),passwordEncoder.encoder(auth.getPassword()),(short)0);
+                    =userRepository.findByEmailAndPasswordAndIsDel(auth.getEmail(),passwordEncoder.encoding(auth.getPassword()),(short)0);
         }else if(!StringUtils.isBlank(auth.getMobile())){
             userEntity
-                    =userRepository.findByMobileAndPasswordAndIsDel(auth.getMobile(),passwordEncoder.encoder(auth.getPassword()),(short)0);
+                    =userRepository.findByMobileAndPasswordAndIsDel(auth.getMobile(),passwordEncoder.encoding(auth.getPassword()),(short)0);
         }
         if(userEntity==null){
             throw new BaseException(HttpStatus.UNAUTHORIZED.value(),"用户名或密码错误");

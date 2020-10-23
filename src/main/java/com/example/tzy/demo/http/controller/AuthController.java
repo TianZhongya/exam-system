@@ -1,7 +1,7 @@
 package com.example.tzy.demo.http.controller;
 
-import com.example.tzy.demo.biz.domain.bto.AuthRequest;
-import com.example.tzy.demo.biz.domain.bto.AuthService;
+import com.example.tzy.demo.biz.domain.bto.request.AuthRequest;
+import com.example.tzy.demo.biz.service.AuthService;
 import com.example.tzy.demo.biz.domain.bto.response.CoreUserInfo;
 import com.example.tzy.demo.http.common.Response;
 import io.swagger.annotations.Api;

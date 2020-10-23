@@ -1,7 +1,7 @@
 package com.example.tzy.demo.biz.bean;
 
 public interface PasswordEncoder {
-    String encoder(String rawPassword);
+    String encoding(String rawPassword);
 
     default String decoding(String encodedPassword){throw new UnsupportedOperationException();}
 
