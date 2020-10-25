@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
  * @author: Tianzy
  * @create: 2020-10-14 22:51
@@ -27,5 +30,9 @@ public class CoreUserInfo {
                 .nickname(entity.getNickname())
                 .roleId(entity.getRoleId())
                 .build();
+    }
+
+    public static List<CoreUserInfo> from(Collection<CoreUserInfo> entities){
+        return Conver
     }
 }

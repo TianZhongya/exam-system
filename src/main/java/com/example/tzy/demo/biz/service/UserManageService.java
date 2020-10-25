@@ -1,7 +1,11 @@
 package com.example.tzy.demo.biz.service;
 
 import com.example.tzy.demo.biz.bean.PasswordEncoder;
+import com.example.tzy.demo.biz.domain.Pagination;
+import com.example.tzy.demo.biz.domain.bto.BatchGet;
+import com.example.tzy.demo.biz.domain.bto.request.UserQueryRequest;
 import com.example.tzy.demo.biz.domain.bto.request.UserRegisterRequest;
+import com.example.tzy.demo.biz.domain.bto.response.CoreUserInfo;
 import com.example.tzy.demo.biz.enums.RoleEnum;
 import com.example.tzy.demo.biz.exception.BaseException;
 import com.example.tzy.demo.database.annotation.TargetDataSource;
@@ -11,6 +15,8 @@ import com.example.tzy.demo.database.mapper.CoreUserMapper;
 import com.example.tzy.demo.database.repository.UserRepository;
 import com.example.tzy.demo.database.repository.UserValidateRepository;
 import com.example.tzy.demo.http.config.AuthConfigProperties;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -18,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.xml.bind.DataBindingException;
+import java.util.List;
 import java.util.Map;
 
 import static com.example.tzy.demo.database.commen.DatabasesConstants.EXAM_READ_WRITE;
@@ -82,5 +89,12 @@ public class UserManageService {
         }catch (DataIntegrityViolationException e){
             throw new BaseException(HttpStatus.BAD_REQUEST.value(),"用户名、邮箱、手机号等可能有重复",e);
         }
+    }
+
+    public BatchGet<CoreUserInfo> query(UserQueryRequest request){
+        PageHelper.startPage(request.getPageNum(),request.getPerPage(),"id desc");
+        List<CoreUserEntity> entities = coreUserMapper.selectAllByNicknameContaining(request.getName(),request.getRoleId());
+        PageInfo<CoreUserEntity> pageInfo = PageInfo.of(entities);
+        return BatchGet.of(CoreUserInfo.from(pageInfo.getList()), Pagination.fromPage((pageInfo)));
     }
 }
