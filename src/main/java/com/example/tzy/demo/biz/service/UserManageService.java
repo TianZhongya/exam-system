@@ -23,10 +23,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.bind.DataBindingException;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.tzy.demo.database.commen.DatabasesConstants.EXAM_READ_ONLY;
 import static com.example.tzy.demo.database.commen.DatabasesConstants.EXAM_READ_WRITE;
 
 /**
@@ -91,10 +91,17 @@ public class UserManageService {
         }
     }
 
-    public BatchGet<CoreUserInfo> query(UserQueryRequest request){
-        PageHelper.startPage(request.getPageNum(),request.getPerPage(),"id desc");
-        List<CoreUserEntity> entities = coreUserMapper.selectAllByNicknameContaining(request.getName(),request.getRoleId());
+    @TargetDataSource(EXAM_READ_ONLY)
+    public BatchGet<CoreUserInfo> query(UserQueryRequest request) {
+        PageHelper.startPage(request.getPageNum(), request.getPerPage(),"id desc");
+        List<CoreUserEntity> entities = coreUserMapper.selectAllByNicknameContaining(request.getName(), request.getRoleId());
         PageInfo<CoreUserEntity> pageInfo = PageInfo.of(entities);
-        return BatchGet.of(CoreUserInfo.from(pageInfo.getList()), Pagination.fromPage((pageInfo)));
+        return BatchGet.of(CoreUserInfo.from(pageInfo.getList()), Pagination.fromPage(pageInfo));
+    }
+
+    @TargetDataSource(EXAM_READ_WRITE)
+    @Transactional
+    public Boolean delete(Long id){
+        return coreUserMapper.softDel(id);
     }
 }

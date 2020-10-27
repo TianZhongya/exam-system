@@ -1,5 +1,6 @@
 package com.example.tzy.demo.biz.domain.bto.response;
 
+import com.example.tzy.demo.common.util.ConvertUtils;
 import com.example.tzy.demo.database.entity.CoreUserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * @author: Tianzy
@@ -23,7 +25,7 @@ public class CoreUserInfo {
     private String nickname;
     private Short roleId;
 
-    public static CoreUserInfo from(CoreUserEntity entity){
+    public static CoreUserInfo from(CoreUserEntity entity) {
         return CoreUserInfo.builder()
                 .id(entity.getId())
                 .username(entity.getUsername())
@@ -32,7 +34,7 @@ public class CoreUserInfo {
                 .build();
     }
 
-    public static List<CoreUserInfo> from(Collection<CoreUserInfo> entities){
-        return Conver
+    public static List<CoreUserInfo> from(Collection<CoreUserEntity> entities) {
+        return ConvertUtils.extractList(entities, CoreUserInfo::from);
     }
 }

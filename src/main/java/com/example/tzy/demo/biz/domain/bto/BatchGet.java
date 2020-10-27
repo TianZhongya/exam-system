@@ -1,6 +1,6 @@
 package com.example.tzy.demo.biz.domain.bto;
 
-import javafx.scene.control.Pagination;
+import com.example.tzy.demo.biz.domain.Pagination;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
