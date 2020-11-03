@@ -1,8 +1,8 @@
 package com.example.tzy.demo.http.controller;
 
-import com.example.tzy.demo.biz.domain.bto.request.AuthRequest;
+import com.example.tzy.demo.biz.domain.dto.request.AuthRequest;
 import com.example.tzy.demo.biz.service.AuthService;
-import com.example.tzy.demo.biz.domain.bto.response.CoreUserInfo;
+import com.example.tzy.demo.biz.domain.dto.response.CoreUserInfo;
 import com.example.tzy.demo.http.common.Response;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,9 +40,9 @@ public class AuthController {
         try{
             authService.expireAuth(old_Sessionid);
         }catch (Exception e){
-            log.error("删除sessionId失败，sessionId = "+old_Sessionid);
+            log.error("删除sessionid失败，sessionid = "+old_Sessionid);
         }
-        Cookie cookie = new Cookie("sessionId",sessionId);
+        Cookie cookie = new Cookie("sessionid",sessionId);
         cookie.setHttpOnly(true);
         cookie.setMaxAge(Math.toIntExact(Duration.ofDays(3).getSeconds()));
         cookie.setPath("/");

@@ -1,4 +1,4 @@
-package com.example.tzy.demo.biz.domain.bto.request;
+package com.example.tzy.demo.biz.domain.dto.request;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

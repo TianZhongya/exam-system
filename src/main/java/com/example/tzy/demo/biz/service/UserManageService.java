@@ -2,10 +2,10 @@ package com.example.tzy.demo.biz.service;
 
 import com.example.tzy.demo.biz.bean.PasswordEncoder;
 import com.example.tzy.demo.biz.domain.Pagination;
-import com.example.tzy.demo.biz.domain.bto.BatchGet;
-import com.example.tzy.demo.biz.domain.bto.request.UserQueryRequest;
-import com.example.tzy.demo.biz.domain.bto.request.UserRegisterRequest;
-import com.example.tzy.demo.biz.domain.bto.response.CoreUserInfo;
+import com.example.tzy.demo.biz.domain.dto.BatchGet;
+import com.example.tzy.demo.biz.domain.dto.request.UserQueryRequest;
+import com.example.tzy.demo.biz.domain.dto.request.UserRegisterRequest;
+import com.example.tzy.demo.biz.domain.dto.response.CoreUserInfo;
 import com.example.tzy.demo.biz.enums.RoleEnum;
 import com.example.tzy.demo.biz.exception.BaseException;
 import com.example.tzy.demo.database.annotation.TargetDataSource;

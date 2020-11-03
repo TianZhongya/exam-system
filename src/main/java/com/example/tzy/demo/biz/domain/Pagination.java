@@ -1,6 +1,6 @@
 package com.example.tzy.demo.biz.domain;
 
-import com.example.tzy.demo.biz.domain.bto.Paginate;
+import com.example.tzy.demo.biz.domain.dto.Paginate;
 import com.github.pagehelper.PageInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;

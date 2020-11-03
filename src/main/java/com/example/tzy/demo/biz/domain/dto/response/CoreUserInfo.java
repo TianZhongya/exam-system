@@ -1,4 +1,4 @@
-package com.example.tzy.demo.biz.domain.bto.response;
+package com.example.tzy.demo.biz.domain.dto.response;
 
 import com.example.tzy.demo.common.util.ConvertUtils;
 import com.example.tzy.demo.database.entity.CoreUserEntity;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Function;
 
 /**
  * @author: Tianzy

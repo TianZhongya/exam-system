@@ -1,6 +1,6 @@
 package com.example.tzy.demo.biz.redis;
 
-import com.example.tzy.demo.biz.domain.bto.response.CoreUserInfo;
+import com.example.tzy.demo.biz.domain.dto.response.CoreUserInfo;
 import org.apache.catalina.SessionIdGenerator;
 import org.apache.catalina.util.StandardSessionIdGenerator;
 import org.springframework.data.redis.core.RedisTemplate;

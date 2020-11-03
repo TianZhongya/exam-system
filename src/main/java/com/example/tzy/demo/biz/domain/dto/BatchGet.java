@@ -1,4 +1,4 @@
-package com.example.tzy.demo.biz.domain.bto;
+package com.example.tzy.demo.biz.domain.dto;
 
 import com.example.tzy.demo.biz.domain.Pagination;
 import lombok.AllArgsConstructor;

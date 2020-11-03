@@ -1,9 +1,9 @@
 package com.example.tzy.demo.http.controller;
 
-import com.example.tzy.demo.biz.domain.bto.BatchGet;
-import com.example.tzy.demo.biz.domain.bto.request.UserQueryRequest;
-import com.example.tzy.demo.biz.domain.bto.request.UserRegisterRequest;
-import com.example.tzy.demo.biz.domain.bto.response.CoreUserInfo;
+import com.example.tzy.demo.biz.domain.dto.BatchGet;
+import com.example.tzy.demo.biz.domain.dto.request.UserQueryRequest;
+import com.example.tzy.demo.biz.domain.dto.request.UserRegisterRequest;
+import com.example.tzy.demo.biz.domain.dto.response.CoreUserInfo;
 import com.example.tzy.demo.biz.service.UserManageService;
 import com.example.tzy.demo.http.common.Response;
 import io.swagger.annotations.Api;

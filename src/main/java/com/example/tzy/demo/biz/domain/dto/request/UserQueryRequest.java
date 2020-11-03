@@ -1,6 +1,6 @@
-package com.example.tzy.demo.biz.domain.bto.request;
+package com.example.tzy.demo.biz.domain.dto.request;
 
-import com.example.tzy.demo.biz.domain.bto.Paginate;
+import com.example.tzy.demo.biz.domain.dto.Paginate;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

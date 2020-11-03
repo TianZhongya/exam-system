@@ -1,8 +1,8 @@
 package com.example.tzy.demo.biz.service;
 
 import com.example.tzy.demo.biz.bean.PasswordEncoder;
-import com.example.tzy.demo.biz.domain.bto.request.AuthRequest;
-import com.example.tzy.demo.biz.domain.bto.response.CoreUserInfo;
+import com.example.tzy.demo.biz.domain.dto.request.AuthRequest;
+import com.example.tzy.demo.biz.domain.dto.response.CoreUserInfo;
 import com.example.tzy.demo.biz.exception.BaseException;
 import com.example.tzy.demo.biz.redis.UserAuthRedisClient;
 import com.example.tzy.demo.database.annotation.TargetDataSource;

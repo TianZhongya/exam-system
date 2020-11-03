@@ -8,4 +8,5 @@ package com.example.tzy.demo.http.common;
  **/
 public class HttpConstants {
     public static final String SESSION_ID = "sessionid";
+    public static final String ATTR_USER_AUTH = "user-auth-info";
 }
