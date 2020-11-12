@@ -1,4 +1,4 @@
-package com.example.tzy.demo.biz.confic;
+package com.example.tzy.demo.biz.config;
 
 import com.example.tzy.demo.biz.bean.PasswordEncoder;
 import lombok.Getter;

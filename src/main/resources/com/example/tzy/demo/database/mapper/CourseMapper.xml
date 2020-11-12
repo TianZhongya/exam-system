@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tzy.demo.database.mapper.CourseMapper">
+  <resultMap id="BaseResultMap" type="com.example.tzy.demo.database.entity.CourseEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="subject_id" jdbcType="BIGINT" property="subjectId" />
+    <result column="subject_name" jdbcType="VARCHAR" property="subjectName" />
+    <result column="subtitle" jdbcType="VARCHAR" property="subtitle" />
+    <result column="creator_id" jdbcType="BIGINT" property="creatorId" />
+    <result column="creator_name" jdbcType="VARCHAR" property="creatorName" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="is_del" jdbcType="INTEGER" property="isDel" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    select
+        c.id, subject_id, subject_name, subtitle, creator_id, creator_name, start_time, end_time,
+        created_time, updated_time, teacher_id, user_name as teacher_name
+        from course c left join course_relation r
+        on c.id = r.course_id
+  </sql>
+  <sql id="Simple_Column_List">
+    select
+        c.id,
+        subject_name,
+        subtitle,
+        creator_name,
+        start_time,
+        end_time,
+        user_name as teacher_name
+    from course c
+        left join course_relation r on c.id=r.course_id
+  </sql>
+
+
+  <select id="selectDetailById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <include refid="Base_Column_List" />
+    where c.id = #{id,jdbcType=BIGINT}
+        and c.isDel = 0
+        and r.isDel = 0
+  </select>
+  <select id="selectSummaryById" resultType="com.example.tzy.demo.database.entity.CourseSummaryEntity">
+    <include refid="Simple_Column_List"></include>
+    where c.id = #{id,jdbcType=BIGINT}
+        and c.is_del = 0
+        and r.is_del = 0
+  </select>
+  <select id="isOwner" resultType="java.lang.Boolean">
+    select exists(
+                  select * from course where id = #{courseId,jdbcType=BIGINT} and creator_id = #{userId,jdbcType=BIGINT}
+                  )
+  </select>
+  <select id="queryForIds" resultType="java.lang.Long">
+    select c.id as id
+    from course c
+            left join course_relation r
+            on c.id = r.course_id
+    <where>
+      <if test="query.subjectId != null">
+        and subject_id = #{query.subjectId,jdbcType=BIGINT}
+      </if>
+      <if test="query.creatorId != null">
+        and creator_id = #{query.creatorId,jdbcType=BIGINT}
+      </if>
+      and c.is_del = 0
+      <if test="query.teacherId != null">
+        and teacher_id = #{query.teacherId,jdbcType=BIGINT}
+        and r.is_del = 0
+      </if>
+      <if test="query.studentId != null">
+        and student_id = #{query.studentId,jdbcType=BIGINT}
+        and r.is_del = 0
+      </if>
+    </where>
+    group by c.id
+  </select>
+    <select id="findAllByIdIn" resultType="com.example.tzy.demo.database.entity.CourseSummaryEntity">
+        <include refid="Base_Column_List"></include>
+        where c.id in
+        <foreach collection="ids" item="item" open="(" separator="," close=")">
+          #{item,jdbcType=BIGINT}
+        </foreach>
+    </select>
+
+
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.tzy.demo.database.entity.CourseEntity" useGeneratedKeys="true">
+    insert into course (subject_id, subject_name, subtitle,
+      creator_id, creator_name, start_time,
+      end_time, is_del, created_time,
+      updated_time)
+    values (#{subjectId,jdbcType=BIGINT}, #{subjectName,jdbcType=VARCHAR}, #{subtitle,jdbcType=VARCHAR},
+      #{creatorId,jdbcType=BIGINT}, #{creatorName,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP},
+      #{endTime,jdbcType=TIMESTAMP}, #{isDel,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP},
+      #{updatedTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.tzy.demo.database.entity.CourseEntity" useGeneratedKeys="true">
+    insert into course
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="subjectId != null">
+        subject_id,
+      </if>
+      <if test="subjectName != null">
+        subject_name,
+      </if>
+      <if test="subtitle != null">
+        subtitle,
+      </if>
+      <if test="creatorId != null">
+        creator_id,
+      </if>
+      <if test="creatorName != null">
+        creator_name,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="isDel != null">
+        is_del,
+      </if>
+      <if test="createdTime != null">
+        created_time,
+      </if>
+      <if test="updatedTime != null">
+        updated_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="subjectId != null">
+        #{subjectId,jdbcType=BIGINT},
+      </if>
+      <if test="subjectName != null">
+        #{subjectName,jdbcType=VARCHAR},
+      </if>
+      <if test="subtitle != null">
+        #{subtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId,jdbcType=BIGINT},
+      </if>
+      <if test="creatorName != null">
+        #{creatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null">
+        #{isDel,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null">
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.tzy.demo.database.entity.CourseEntity">
+    update course
+    <set>
+      <if test="subjectId != null">
+        subject_id = #{subjectId,jdbcType=BIGINT},
+      </if>
+      <if test="subjectName != null">
+        subject_name = #{subjectName,jdbcType=VARCHAR},
+      </if>
+      <if test="subtitle != null">
+        subtitle = #{subtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorId != null">
+        creator_id = #{creatorId,jdbcType=BIGINT},
+      </if>
+      <if test="creatorName != null">
+        creator_name = #{creatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null">
+        is_del = #{isDel,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null">
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null">
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.tzy.demo.database.entity.CourseEntity">
+    update course
+    set subject_id = #{subjectId,jdbcType=BIGINT},
+      subject_name = #{subjectName,jdbcType=VARCHAR},
+      subtitle = #{subtitle,jdbcType=VARCHAR},
+      creator_id = #{creatorId,jdbcType=BIGINT},
+      creator_name = #{creatorName,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      is_del = #{isDel,jdbcType=INTEGER},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="softDelete" parameterType="java.lang.Long">
+    update course
+    set is_del = 1
+    where id = #{id,jdbcType=BIGINT};
+            update course_relation
+                set is_del = 1
+                where course_id = #{id,jdbcType=BIGINT};
+  </update>
+</mapper>
