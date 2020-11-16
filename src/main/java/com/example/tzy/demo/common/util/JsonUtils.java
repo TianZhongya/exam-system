@@ -31,7 +31,7 @@ public class JsonUtils {
 
     public static <T> String toJson(T o) {
         try {
-            return OBJECT_MAPPER.writeValueAsString(0);
+            return OBJECT_MAPPER.writeValueAsString(o);
         } catch (JsonProcessingException e) {
             throw new RuntimeException();
         }

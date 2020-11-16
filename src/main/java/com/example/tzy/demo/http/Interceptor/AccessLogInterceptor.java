@@ -26,7 +26,7 @@ public class AccessLogInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception{
         request.setAttribute("start_time", System.currentTimeMillis());
         CoreUserInfo userInfo = (CoreUserInfo) request.getAttribute(ATTR_USER_AUTH);
-        String username = userInfo.getUsername();
+        String username = userInfo != null ? userInfo.getUsername() : "[UNKNOWN]";
         String ip = request.getRemoteUser();
         String uuid = UUID.randomUUID().toString();
         request.setAttribute("log_id",uuid);

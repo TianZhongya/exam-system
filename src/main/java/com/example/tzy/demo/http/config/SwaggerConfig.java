@@ -1,5 +1,4 @@
 package com.example.tzy.demo.http.config;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -18,19 +17,19 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 public class SwaggerConfig {
 
     @Bean
-    public Docket createRestApi(){
+    public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(
                         new ApiInfoBuilder()
-                            .title("接口文档")
-                            .description("考试系统")
-                            .version("1.0")
-                            .build()
+                                .title("接口文档")
+                                .description("垃圾考试系统")
+                                .version("1.0")
+                                .build()
                 )
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.example.tzy.demo.http.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }
-    //Unable to infer base url. This is common when using dynamic servlet registration or when the API is behind an API Gateway. The base url is the root of where all the swagger resources are served. For e.g. if the api is available at http://example.org/api/v2/api-docs then the base url is http://example.org/api/. Please enter the location manually:
+
 }
