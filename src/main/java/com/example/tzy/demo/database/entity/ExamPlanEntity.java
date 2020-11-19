@@ -6,7 +6,7 @@ import lombok.Data;
 
 /**
  * exam_plan
- * @author 
+ * @author
  */
 @Data
 public class ExamPlanEntity implements Serializable {
@@ -37,6 +37,8 @@ public class ExamPlanEntity implements Serializable {
     private Date updatedTime;
 
     private Byte isDel;
+
+    private ExamRecordEntity examRecordEntity;
 
     private static final long serialVersionUID = 1L;
 }

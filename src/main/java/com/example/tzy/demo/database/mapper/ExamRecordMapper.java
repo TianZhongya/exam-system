@@ -3,6 +3,8 @@ package com.example.tzy.demo.database.mapper;
 import com.example.tzy.demo.database.entity.ExamRecordEntity;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface ExamRecordMapper {
     int insertIfNotExist(ExamRecordEntity record);
 
@@ -13,6 +15,8 @@ public interface ExamRecordMapper {
     int insertSelective(ExamRecordEntity record);
 
     ExamRecordEntity selectByPrimaryKey(Long id);
+
+    List<ExamRecordEntity> selectByTeacherId(@Param("teacherId")Long studentId);
 
     int updateByPrimaryKeySelective(ExamRecordEntity record);
 

@@ -186,4 +186,25 @@
       updated_time = #{updatedTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectByTeacherId" resultMap="BaseResultMap">
+        select record.id,
+               record.exam_plan_id,
+               record.student_id,
+               record.paper_id,
+               record.student_name,
+               record.fact_score,
+               record.content_json,
+               fact_score_detail_json,
+               release_status_id,
+               record.created_time,
+               record.updated_time,
+               p.title
+        from exam_plan plan
+                     inner join course_relation relation on plan.course_id = relation.course_id
+                     inner join exam_record record on plan.id = record.exam_plan_id
+                     left join paper p on record.paper_id = p.id
+        where relation.teacher_id = #{teacherId,jdbcType=BIGINT}
+          and record.release_status_id >= 2
+    </select>
 </mapper>

@@ -17,30 +17,79 @@
     <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
     <result column="is_del" jdbcType="TINYINT" property="isDel" />
   </resultMap>
+  <resultMap id="WithRecord" type="com.example.tzy.demo.database.entity.ExamPlanEntity">
+    <id column="id" jdbcType="BIGINT" property="id"/>
+    <result column="subject_id" jdbcType="BIGINT" property="subjectId"/>
+    <result column="subject_name" jdbcType="VARCHAR" property="subjectName"/>
+    <result column="course_id" jdbcType="BIGINT" property="courseId"/>
+    <result column="paper_id" jdbcType="BIGINT" property="paperId"/>
+    <result column="paper_title" jdbcType="VARCHAR" property="paperTitle"/>
+    <result column="full_score" jdbcType="INTEGER" property="fullScore"/>
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+    <association property="examRecordEntity" javaType="com.example.tzy.demo.database.entity.ExamRecordEntity">
+      <result column="record_id" jdbcType="BIGINT" property="id"/>
+      <result column="fact_score" jdbcType="INTEGER" property="factScore"/>
+      <result column="release_status" jdbcType="TINYINT" property="releaseStatusId"/>
+      <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+      <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime"/>
+    </association>
+  </resultMap>
+
   <sql id="Base_Column_List">
-    id, subject_id, subject_name, course_id, paper_id, paper_title, full_score, teacher_id, 
+    id, subject_id, subject_name, course_id, paper_id, paper_title, full_score, teacher_id,
     teacher_name, start_time, end_time, created_time, updated_time, is_del
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from exam_plan
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <sql id="Select_WithRecord">
+        select plan.id                  id,
+               plan.subject_id          subject_id,
+               plan.subject_name        subject_name,
+               plan.course_id           course_id,
+               plan.paper_id            paper_id,
+               plan.paper_title         paper_title,
+               plan.full_score          full_score,
+               plan.start_time          start_time,
+               plan.end_time            end_time,
+
+               record.id                record_id,
+               record.fact_score        fact_score,
+               record.release_status_id release_status,
+               record.created_time      created_time,
+               record.updated_time      updated_time
+        from exam_plan plan
+                     left join course_relation relation
+                on plan.course_id = relation.course_id
+                     left join exam_record record
+                on plan.id = record.exam_plan_id
+    </sql>
+  <select id="selectAllByStudentIdOrderByStartTimeDesc" resultMap="WithRecord">
+    <include refid="Select_WithRecord"/>
+    where plan.is_del = 0
+    and relation.student_id = #{studentId,jdbcType=BIGINT}
+    and relation.is_del = 0
+    order by start_time desc
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from exam_plan
-    where id = #{id,jdbcType=BIGINT}
+    update exam_plan
+        set is_del=1
+        where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.tzy.demo.database.entity.ExamPlanEntity" useGeneratedKeys="true">
-    insert into exam_plan (subject_id, subject_name, course_id, 
-      paper_id, paper_title, full_score, 
-      teacher_id, teacher_name, start_time, 
-      end_time, created_time, updated_time, 
+    insert into exam_plan (subject_id, subject_name, course_id,
+      paper_id, paper_title, full_score,
+      teacher_id, teacher_name, start_time,
+      end_time, created_time, updated_time,
       is_del)
-    values (#{subjectId,jdbcType=BIGINT}, #{subjectName,jdbcType=VARCHAR}, #{courseId,jdbcType=BIGINT}, 
-      #{paperId,jdbcType=BIGINT}, #{paperTitle,jdbcType=VARCHAR}, #{fullScore,jdbcType=INTEGER}, 
-      #{teacherId,jdbcType=BIGINT}, #{teacherName,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
-      #{endTime,jdbcType=TIMESTAMP}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP}, 
+    values (#{subjectId,jdbcType=BIGINT}, #{subjectName,jdbcType=VARCHAR}, #{courseId,jdbcType=BIGINT},
+      #{paperId,jdbcType=BIGINT}, #{paperTitle,jdbcType=VARCHAR}, #{fullScore,jdbcType=INTEGER},
+      #{teacherId,jdbcType=BIGINT}, #{teacherName,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP},
+      #{endTime,jdbcType=TIMESTAMP}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP},
       #{isDel,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.tzy.demo.database.entity.ExamPlanEntity" useGeneratedKeys="true">
@@ -190,4 +239,49 @@
       is_del = #{isDel,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <sql id="selectExamPlanJoinRelation">
+        select ep.id,
+               subject_id,
+               subject_name,
+               ep.course_id,
+               paper_id,
+               paper_title,
+               ep.teacher_id,
+               teacher_name,
+               start_time,
+               end_time,
+               created_time,
+               updated_time
+        from exam_plan ep
+                     inner join course_relation cr on ep.course_id = cr.course_id
+    </sql>
+
+  <select id="selectAllByTeacherTeachOrderByStartTimeDesc" resultMap="BaseResultMap">
+    <include refid="selectExamPlanJoinRelation">
+    </include>
+    where ep.teacher_id = #{teacherId,jdbcType=BIGINT}
+    and ep.is_del = 0
+    and cr.is_del = 0
+    group by ep.id
+    order by id desc
+  </select>
+
+  <select id="selectAllByCourseIdOrderByStartTimeDesc" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List">
+    </include>
+    from exam_plan
+    where course_id = #{courseId,jdbcType=BIGINT}
+    and is_del = 0
+    order by start_time desc
+  </select>
+
+  <select id="selectAllByCourseIdAndStudentIdOrderByStartTimeDesc" resultMap="WithRecord">
+    <include refid="Select_WithRecord"/>
+    where plan.course_id = #{courseId,jdbcType=BIGINT}
+    and plan.is_del = 0
+    and relation.student_id = #{studentId,jdbcType=BIGINT}
+    order by start_time desc
+  </select>
 </mapper>
