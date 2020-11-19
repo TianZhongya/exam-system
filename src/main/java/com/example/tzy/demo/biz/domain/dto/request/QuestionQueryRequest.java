@@ -1,6 +1,5 @@
 package com.example.tzy.demo.biz.domain.dto.request;
 
-import com.example.tzy.demo.biz.domain.Pagination;
 import com.example.tzy.demo.biz.domain.dto.Paginate;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

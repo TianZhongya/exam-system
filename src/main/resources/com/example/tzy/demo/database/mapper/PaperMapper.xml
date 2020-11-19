@@ -3,7 +3,7 @@
 <mapper namespace="com.example.tzy.demo.database.mapper.PaperMapper">
   <resultMap id="BaseResultMap" type="com.example.tzy.demo.database.entity.PaperEntity">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="subject_id" jdbcType="INTEGER" property="subjectId" />
+    <result column="subject_id" jdbcType="BIGINT" property="subjectId" />
     <result column="subject_name" jdbcType="VARCHAR" property="subjectName" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="teacher_id" jdbcType="BIGINT" property="teacherId" />
@@ -16,27 +16,44 @@
     <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, subject_id, subject_name, title, teacher_id, teacher_name, score, duration, context_json, 
+    id, subject_id, subject_name, title, teacher_id, teacher_name, score, duration, context_json,
     is_del, created_time, updated_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from paper
     where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="query" resultMap="BaseResultMap">
+    select
+    id, subject_id, subject_name, title, teacher_id, teacher_name, score, duration,
+    created_time, updated_time
+    from paper
+    <where>
+      <if test="condition.subjectId != null">
+        and subject_id=#{condition.subjectId,jdbcType=INTEGER}
+      </if>
+      <if test="condition.teacherId != null">
+        and teacher_id=#{condition.teacherId,jdbcType=BIGINT}
+      </if>
+      <if test="condition.keyword != null and condition.keyword != ''">
+        and title like concat('%',#{condition.keyword,jdbcType=VARCHAR},'%')
+      </if>
+    </where>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from paper
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.tzy.demo.database.entity.PaperEntity" useGeneratedKeys="true">
-    insert into paper (subject_id, subject_name, title, 
-      teacher_id, teacher_name, score, 
-      duration, context_json, is_del, 
+    insert into paper (subject_id, subject_name, title,
+      teacher_id, teacher_name, score,
+      duration, context_json, is_del,
       created_time, updated_time)
-    values (#{subjectId,jdbcType=INTEGER}, #{subjectName,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
-      #{teacherId,jdbcType=BIGINT}, #{teacherName,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER}, 
-      #{duration,jdbcType=INTEGER}, #{contextJson,jdbcType=VARCHAR}, #{isDel,jdbcType=TINYINT}, 
+    values (#{subjectId,jdbcType=BIGINT}, #{subjectName,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR},
+      #{teacherId,jdbcType=BIGINT}, #{teacherName,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER},
+      #{duration,jdbcType=INTEGER}, #{contextJson,jdbcType=VARCHAR}, #{isDel,jdbcType=TINYINT},
       #{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.tzy.demo.database.entity.PaperEntity" useGeneratedKeys="true">
@@ -78,7 +95,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="subjectId != null">
-        #{subjectId,jdbcType=INTEGER},
+        #{subjectId,jdbcType=BIGINT},
       </if>
       <if test="subjectName != null">
         #{subjectName,jdbcType=VARCHAR},
@@ -116,7 +133,7 @@
     update paper
     <set>
       <if test="subjectId != null">
-        subject_id = #{subjectId,jdbcType=INTEGER},
+        subject_id = #{subjectId,jdbcType=BIGINT},
       </if>
       <if test="subjectName != null">
         subject_name = #{subjectName,jdbcType=VARCHAR},
@@ -153,7 +170,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.example.tzy.demo.database.entity.PaperEntity">
     update paper
-    set subject_id = #{subjectId,jdbcType=INTEGER},
+    set subject_id = #{subjectId,jdbcType=BIGINT},
       subject_name = #{subjectName,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       teacher_id = #{teacherId,jdbcType=BIGINT},

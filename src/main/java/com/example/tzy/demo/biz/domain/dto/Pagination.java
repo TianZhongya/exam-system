@@ -1,6 +1,5 @@
-package com.example.tzy.demo.biz.domain;
+package com.example.tzy.demo.biz.domain.dto;
 
-import com.example.tzy.demo.biz.domain.dto.Paginate;
 import com.github.pagehelper.PageInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;

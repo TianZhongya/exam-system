@@ -1,6 +1,5 @@
 package com.example.tzy.demo.biz.domain.dto;
 
-import com.example.tzy.demo.biz.domain.Pagination;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

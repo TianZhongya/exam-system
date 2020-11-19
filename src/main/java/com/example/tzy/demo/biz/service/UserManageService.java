@@ -1,7 +1,7 @@
 package com.example.tzy.demo.biz.service;
 
 import com.example.tzy.demo.biz.bean.PasswordEncoder;
-import com.example.tzy.demo.biz.domain.Pagination;
+import com.example.tzy.demo.biz.domain.dto.Pagination;
 import com.example.tzy.demo.biz.domain.dto.BatchGet;
 import com.example.tzy.demo.biz.domain.dto.request.UserQueryRequest;
 import com.example.tzy.demo.biz.domain.dto.request.UserRegisterRequest;

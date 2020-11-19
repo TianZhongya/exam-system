@@ -44,4 +44,21 @@
             and is_del = false
         </where>
     </select>
+    <select id="random" resultMap="BaseResultMap">
+        select id,
+        type_id,
+        description_json
+        from question
+        <where>
+            <if test="condition.subjectId != null">
+                and subject_id = #{condition.subjectId,jdbcType=BIGINT}
+            </if>
+            <if test="condition.typeId != null">
+                and type_id = #{condition.typeId,jdbcType=INTEGER}
+            </if>
+            and is_del = false
+        </where>
+        ORDER BY RAND()
+        LIMIT #{condition.limit}
+    </select>
 </mapper>

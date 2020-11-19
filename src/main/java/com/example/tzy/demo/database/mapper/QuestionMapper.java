@@ -20,6 +20,8 @@ public interface QuestionMapper {
 
     List<QuestionEntity> query(@Param("condition")QueryCondition condition);
 
+    List<QuestionEntity> random(@Param("conditon") QueryCondition condition);
+
     @Data
     @Builder
     @NoArgsConstructor

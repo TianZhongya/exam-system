@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tzy.demo.database.mapper.ExamRecordMapper">
+  <resultMap id="BaseResultMap" type="com.example.tzy.demo.database.entity.ExamRecordEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="exam_plan_id" jdbcType="BIGINT" property="examPlanId" />
+    <result column="paper_id" jdbcType="BIGINT" property="paperId" />
+    <result column="student_id" jdbcType="BIGINT" property="studentId" />
+    <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+    <result column="fact_score" jdbcType="INTEGER" property="factScore" />
+    <result column="content_json" jdbcType="VARCHAR" property="contentJson" />
+    <result column="release_status_id" jdbcType="TINYINT" property="releaseStatusId" />
+    <result column="fact_score_detail_json" jdbcType="VARCHAR" property="factScoreDetailJson" />
+    <result column="is_del" jdbcType="TINYINT" property="isDel" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, exam_plan_id, paper_id, student_id, student_name, fact_score, content_json, release_status_id,
+    fact_score_detail_json, is_del, created_time, updated_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from exam_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+    <select id="selectByExamPlanIdAndStudentId" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List"></include>
+      from exam_record
+      where exam_plan_id = #{examPlanId,jdbcType=BIGINT}
+      and student_id = #{studentId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from exam_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.tzy.demo.database.entity.ExamRecordEntity" useGeneratedKeys="true">
+    insert into exam_record (exam_plan_id, paper_id, student_id,
+      student_name, fact_score, content_json,
+      release_status_id, fact_score_detail_json, is_del,
+      created_time, updated_time)
+    values (#{examPlanId,jdbcType=BIGINT}, #{paperId,jdbcType=BIGINT}, #{studentId,jdbcType=BIGINT},
+      #{studentName,jdbcType=VARCHAR}, #{factScore,jdbcType=INTEGER}, #{contentJson,jdbcType=VARCHAR},
+      #{releaseStatusId,jdbcType=TINYINT}, #{factScoreDetailJson,jdbcType=VARCHAR}, #{isDel,jdbcType=TINYINT},
+      #{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.tzy.demo.database.entity.ExamRecordEntity" useGeneratedKeys="true">
+    insert into exam_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="examPlanId != null">
+        exam_plan_id,
+      </if>
+      <if test="paperId != null">
+        paper_id,
+      </if>
+      <if test="studentId != null">
+        student_id,
+      </if>
+      <if test="studentName != null">
+        student_name,
+      </if>
+      <if test="factScore != null">
+        fact_score,
+      </if>
+      <if test="contentJson != null">
+        content_json,
+      </if>
+      <if test="releaseStatusId != null">
+        release_status_id,
+      </if>
+      <if test="factScoreDetailJson != null">
+        fact_score_detail_json,
+      </if>
+      <if test="isDel != null">
+        is_del,
+      </if>
+      <if test="createdTime != null">
+        created_time,
+      </if>
+      <if test="updatedTime != null">
+        updated_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="examPlanId != null">
+        #{examPlanId,jdbcType=BIGINT},
+      </if>
+      <if test="paperId != null">
+        #{paperId,jdbcType=BIGINT},
+      </if>
+      <if test="studentId != null">
+        #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="studentName != null">
+        #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="factScore != null">
+        #{factScore,jdbcType=INTEGER},
+      </if>
+      <if test="contentJson != null">
+        #{contentJson,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseStatusId != null">
+        #{releaseStatusId,jdbcType=TINYINT},
+      </if>
+      <if test="factScoreDetailJson != null">
+        #{factScoreDetailJson,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null">
+        #{isDel,jdbcType=TINYINT},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null">
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertIfNotExist" keyColumn="id" keyProperty="id"
+          parameterType="com.example.tzy.demo.database.entity.ExamRecordEntity" useGeneratedKeys="true">
+    insert IGNORE into exam_record (exam_plan_id,
+    paper_id,
+    student_id,
+    student_name,
+    content_json)
+    values (#{examPlanId,jdbcType=BIGINT},
+    #{paperId,jdbcType=BIGINT},
+    #{studentId,jdbcType=BIGINT},
+    #{studentName,jdbcType=VARCHAR},
+    #{contentJson,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.tzy.demo.database.entity.ExamRecordEntity">
+    update exam_record
+    <set>
+      <if test="examPlanId != null">
+        exam_plan_id = #{examPlanId,jdbcType=BIGINT},
+      </if>
+      <if test="paperId != null">
+        paper_id = #{paperId,jdbcType=BIGINT},
+      </if>
+      <if test="studentId != null">
+        student_id = #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="studentName != null">
+        student_name = #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="factScore != null">
+        fact_score = #{factScore,jdbcType=INTEGER},
+      </if>
+      <if test="contentJson != null">
+        content_json = #{contentJson,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseStatusId != null">
+        release_status_id = #{releaseStatusId,jdbcType=TINYINT},
+      </if>
+      <if test="factScoreDetailJson != null">
+        fact_score_detail_json = #{factScoreDetailJson,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null">
+        is_del = #{isDel,jdbcType=TINYINT},
+      </if>
+      <if test="createdTime != null">
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null">
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.tzy.demo.database.entity.ExamRecordEntity">
+    update exam_record
+    set exam_plan_id = #{examPlanId,jdbcType=BIGINT},
+      paper_id = #{paperId,jdbcType=BIGINT},
+      student_id = #{studentId,jdbcType=BIGINT},
+      student_name = #{studentName,jdbcType=VARCHAR},
+      fact_score = #{factScore,jdbcType=INTEGER},
+      content_json = #{contentJson,jdbcType=VARCHAR},
+      release_status_id = #{releaseStatusId,jdbcType=TINYINT},
+      fact_score_detail_json = #{factScoreDetailJson,jdbcType=VARCHAR},
+      is_del = #{isDel,jdbcType=TINYINT},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

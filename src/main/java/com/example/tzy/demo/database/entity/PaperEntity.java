@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class PaperEntity implements Serializable {
     private Long id;
 
-    private Integer subjectId;
+    private Long subjectId;
 
     private String subjectName;
 
@@ -40,6 +40,8 @@ public class PaperEntity implements Serializable {
     private Date createdTime;
 
     private Date updatedTime;
+
+    private ExamRecordEntity examRecordEntity;
 
     private static final long serialVersionUID = 1L;
 }

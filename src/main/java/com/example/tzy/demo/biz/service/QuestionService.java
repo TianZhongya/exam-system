@@ -1,13 +1,12 @@
 package com.example.tzy.demo.biz.service;
 
-import com.example.tzy.demo.biz.domain.Pagination;
+import com.example.tzy.demo.biz.domain.dto.Pagination;
 import com.example.tzy.demo.biz.domain.dto.BatchGet;
 import com.example.tzy.demo.biz.domain.dto.request.QuestionCreateRequest;
 import com.example.tzy.demo.biz.domain.dto.request.QuestionQueryRequest;
 import com.example.tzy.demo.biz.domain.dto.response.CoreUserInfo;
 import com.example.tzy.demo.biz.domain.dto.response.DescriptionVO;
 import com.example.tzy.demo.biz.domain.dto.response.QuestionVO;
-import com.example.tzy.demo.biz.domain.question.Question;
 import com.example.tzy.demo.biz.exception.BaseException;
 import com.example.tzy.demo.common.util.ConvertUtils;
 import com.example.tzy.demo.common.util.JsonUtils;

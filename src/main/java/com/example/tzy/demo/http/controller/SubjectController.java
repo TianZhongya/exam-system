@@ -1,6 +1,6 @@
 package com.example.tzy.demo.http.controller;
 
-import com.example.tzy.demo.biz.domain.Pagination;
+import com.example.tzy.demo.biz.domain.dto.Pagination;
 import com.example.tzy.demo.biz.domain.dto.BatchGet;
 import com.example.tzy.demo.biz.domain.dto.IdAndName;
 import com.example.tzy.demo.biz.domain.dto.response.CoreUserInfo;
