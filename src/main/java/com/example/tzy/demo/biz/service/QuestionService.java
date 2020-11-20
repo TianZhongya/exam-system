@@ -7,6 +7,7 @@ import com.example.tzy.demo.biz.domain.dto.request.QuestionQueryRequest;
 import com.example.tzy.demo.biz.domain.dto.response.CoreUserInfo;
 import com.example.tzy.demo.biz.domain.dto.response.DescriptionVO;
 import com.example.tzy.demo.biz.domain.dto.response.QuestionVO;
+import com.example.tzy.demo.biz.domain.question.Answer;
 import com.example.tzy.demo.biz.exception.BaseException;
 import com.example.tzy.demo.common.util.ConvertUtils;
 import com.example.tzy.demo.common.util.JsonUtils;
@@ -108,6 +109,21 @@ public class QuestionService {
         return BatchGet.of(voList, Pagination.fromPage(page));
     }
 
+    @TargetDataSource(EXAM_READ_ONLY)
+    public Map<Long, Answer> findAnswerByIds(List<Long> ids) {
+        List<QuestionEntity> questionEntities = questionRepository.findAllById(ids);
+        return ConvertUtils.extractMap(
+                questionEntities,
+                QuestionEntity::getId,
+                entity -> {
+                    Answer answer = JsonUtils.fromJson(entity.getAnswerJson(), Answer.class);
+                    answer.setTypeId(entity.getTypeId());
+                    return answer;
+                }
+        );
+    }
+
+    @TargetDataSource(EXAM_READ_ONLY)
     public Map<Long, DescriptionVO> findDescription(List<Long> ids){
         List<QuestionEntity> entities = questionRepository.findAllById(ids);
         return ConvertUtils.extractMap(entities,QuestionEntity::getId,DescriptionVO::fromEntity);

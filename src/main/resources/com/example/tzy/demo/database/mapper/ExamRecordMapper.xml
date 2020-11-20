@@ -207,4 +207,38 @@
         where relation.teacher_id = #{teacherId,jdbcType=BIGINT}
           and record.release_status_id >= 2
     </select>
+
+  <update id="updateByExamPlanIdAndStudentIdSelective"
+          parameterType="com.example.tzy.demo.database.entity.ExamRecordEntity">
+    update exam_record
+    <set>
+      <if test="factScore != null">
+        fact_score = #{factScore,jdbcType=INTEGER},
+      </if>
+      <if test="contentJson != null">
+        content_json = #{contentJson,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="releaseStatusId != null">
+        release_status_id = #{releaseStatusId,jdbcType=TINYINT},
+      </if>
+      <if test="factScoreDetailJson != null">
+        fact_score_detail_json = #{factScoreDetailJson,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where exam_plan_id = #{examPlanId,jdbcType=BIGINT}
+    and student_id = #{studentId,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectStats" resultType="java.util.Map">
+    <![CDATA[
+        select count(IF(fact_score / score >= 0.9, 0, null))                             _90,
+               count(IF(fact_score / score >= 0.8 and fact_score / score < 0.9, 0, null)) _80,
+               count(IF(fact_score / score >= 0.7 and fact_score / score < 0.8, 0, null)) _70,
+               count(IF(fact_score / score >= 0.6 and fact_score / score < 0.7, 0, null)) _60,
+               count(IF(fact_score / score < 0.6, 0, null))                                  _00,
+               count(*)                                  _all
+        from exam_record record
+                     left join paper p on record.paper_id = p.id ]]>
+        where record.exam_plan_id = #{planId,jdbcType=BIGINT}
+    </select>
 </mapper>
