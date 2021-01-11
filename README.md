@@ -7,7 +7,7 @@
 
 | 用户名   | 密码       |
 | -------- | ---------- |
-| teacher1 | qwertyuiop |
+| teacher2 | qwertyuiop |
 | student1 | qwertyuiop |
 
 
